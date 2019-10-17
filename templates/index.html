@@ -1,16 +1,14 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <div class="row">
-        <div class="col-md-6">
-            <img onclick="inputLeft.click()" id="img-left" src="{{ url_for('static', filename='anon.jpg') }}"
-                 class="rounded border img-fluid center-cropped float-right"
+    <div class="text-center" >
+        
+        <div  class="col-md-12" >
+            <img  onclick="inputLeft.click()" id="img-left" src="{{ url_for('static', filename='anon.jpg') }}"
+                 class="rounded border center-cropped center-cropped"
                  alt="Pair left">
+
         </div>
-        <div class="col-md-6">
-            <img onclick="inputRight.click()" id="img-right" src="{{ url_for('static', filename='anon.jpg') }}"
-                 class="rounded border img-fluid center-cropped float-left"
-                 alt="Pair left">
-        </div>
+        
         <div class="col-md-12">
             <br>
             <button onclick="predict()" id="btnPredict" class="btn btn-primary mx-auto d-block">Prediksi</button>
@@ -22,7 +20,8 @@
             <h5 id="score"></h5>
         </div>
     </div>
-    <div class="row">
+    
+    <div class="text-center">   
         <div class="col-sm-12">
             <hr>
             <h5 id="threshold"></h5>
@@ -46,7 +45,7 @@
         inputLeft.accept = 'image/*';
         inputRight.type = 'file';
         inputRight.accept = 'image/*';
-        let data = {imgLeft: null, imgRight: null};
+        let data = {imgLeft: null};
 
         inputLeft.onchange = e => {
             resetBtnPredict()
@@ -80,9 +79,9 @@
                 body: formData
             }).then((r) => r.json().then((data) => {
                 console.log(data);
-                scoreElement.innerText = `JARAK: ${data.score}`;
-                similarElement.innerText = `${data.same}`;
-                thresholdElement.innerText = `Threshold: ${data.threshold}`;
+                scoreElement.innerText = `Prob: ${data.score}`;
+                similarElement.innerText = `${data.klasifikasi}`;
+                // thresholdElement.innerText = `Threshold: ${data.threshold}`;
                 resetBtnPredict()
             }))
         };

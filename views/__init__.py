@@ -1,9 +1,12 @@
 from PIL import Image
 from flask import Blueprint, render_template, request, jsonify
 from torch_mtcnn import detect_faces
+import numpy as np
 
-from util import is_same, ModelLoaded
+import tensorflow as tf
+from util import model, lb
 
+graph = tf.get_default_graph()
 base = Blueprint('base', __name__)
 THRESHOLD = 1.5
 
@@ -16,19 +19,25 @@ def index():
 @base.route('/predict', methods=['post'])
 def predict():
     files = request.files
-    img_left = Image.open(files.get('imgLeft')).convert('RGB')
-    img_right = Image.open(files.get('imgRight')).convert('RGB')
-    bbox_left, _ = detect_faces(img_left)
-    bbox_right, _ = detect_faces(img_right)
-    if bbox_left.shape[0] > 0:
-        a, b, c, d, _ = bbox_left[0]
-        img_left = img_left.crop((a, b, c, d))
-    if bbox_right.shape[0] > 0:
-        a, b, c, d, _ = bbox_right[0]
-        img_right = img_right.crop((a, b, c, d))
-    distance, similar = is_same(img_left, img_right, THRESHOLD)
-    model_acc = ModelLoaded.acc
-    return jsonify(same=('BERBEDA', 'SAMA')[similar.item()],
-                   score=distance.item(),
-                   model_acc=model_acc,
-                   threshold=THRESHOLD)
+    img_left = Image.open(files.get('imgLeft'))
+    img_cnn = img_left.resize((32,32))
+    img_cnn = np.array(img_cnn)
+    # tambahkan dimensi gamb`arnnya
+    Image.fromarray(img_cnn).save('tes.jpg')
+    img_cnn = np.expand_dims(img_cnn, axis = 0)
+    print(img_cnn.shape)
+    print(model.summary())
+
+
+    # melakukan prediksi
+
+
+    # proses kembali sehingga didapatkan label kelas keluaran hasil prediksinya
+    with graph.as_default():
+        pred = model.predict(img_cnn)
+    i = pred.argmax(axis = 1)[0]
+    label_class = lb.classes_[i]
+    # label_class = 'ngarang'
+    # pred = np.array([1,2])
+    return jsonify(klasifikasi=label_class,
+                   score=pred.max().item()*100)
