@@ -1,4 +1,3 @@
-from res_facenet.models import model_920, model_921
 
 DEBUG = True
 
