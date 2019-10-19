@@ -18,7 +18,6 @@ dash-renderer==0.13.0
 dash-table-experiments==0.6.0
 decorator==4.3.0
 docutils==0.14
-Flask==1.0.2
 Flask-Compress==1.4.0
 Flask-SeaSurf==0.2.2
 gunicorn==19.9.0
