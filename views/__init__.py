@@ -1,6 +1,6 @@
 from PIL import Image
 from flask import Blueprint, render_template, request, jsonify
-from torch_mtcnn import detect_faces
+
 import numpy as np
 
 import tensorflow as tf
