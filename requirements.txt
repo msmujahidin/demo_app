@@ -4,3 +4,4 @@ Jinja2
 keras
 pillow
 tensorflow
+sklearn
