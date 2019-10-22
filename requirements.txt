@@ -5,3 +5,4 @@ keras
 pillow
 tensorflow
 sklearn
+numpy
