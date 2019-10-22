@@ -1,7 +1,7 @@
 from PIL import Image
 from flask import Blueprint, render_template, request, jsonify
 
-import numpy as np
+import numpy as np  
 
 import tensorflow as tf
 from util import model, lb
@@ -9,6 +9,7 @@ from util import model, lb
 graph = tf.get_default_graph()
 base = Blueprint('base', __name__)
 THRESHOLD = 1.5
+
 
 
 @base.route('/')
@@ -20,7 +21,7 @@ def index():
 def predict():
     files = request.files
     img_left = Image.open(files.get('imgLeft'))
-    img_cnn = img_left.resize((32,32))
+    img_cnn = img_left.resize((256,256))
     img_cnn = np.array(img_cnn)
     # tambahkan dimensi gamb`arnnya
     Image.fromarray(img_cnn).save('tes.jpg')
