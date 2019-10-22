@@ -21,7 +21,7 @@ def index():
 def predict():
     files = request.files
     img_left = Image.open(files.get('imgLeft'))
-    img_cnn = img_left.resize((32, 32))
+    img_cnn = img_left.resize((256, 256))
     img_cnn = np.array(img_cnn)
     # tambahkan dimensi gamb`arnnya
     Image.fromarray(img_cnn).save('tes.jpg')
