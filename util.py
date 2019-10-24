@@ -10,8 +10,8 @@ from boot import app
 
 
 
-keras_model = 'model.h5'
+keras_model = 'model_resneet.h5'
 model = load_model(keras_model)
 
-label = open('lable.pickle', 'rb').read()
+label = open('lable.pickleee', 'rb').read()
 lb = pickle.loads(label)
