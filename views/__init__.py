@@ -10,6 +10,7 @@ graph = tf.get_default_graph()
 base = Blueprint('base', __name__)
 THRESHOLD = 1.5
 
+TF_EnableXLACompilation(sess_opts,true);
 
 
 @base.route('/')
